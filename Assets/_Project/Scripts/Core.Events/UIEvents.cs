@@ -2,6 +2,20 @@ using AdeebTask.Models;
 
 namespace AdeebTask.Core.Events
 {
+    public readonly struct GlobalLoadingEvent
+    {
+        public readonly bool Show;
+        public readonly float Progress;
+        public readonly string Message;
+
+        public GlobalLoadingEvent(bool show, float progress = 0f, string message = "")
+        {
+            Show = show;
+            Progress = progress;
+            Message = message;
+        }
+    }
+
     public readonly struct SpawnObjectRequestedEvent
     {
         public readonly string AddressableKey;

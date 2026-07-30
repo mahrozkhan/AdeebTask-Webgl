@@ -94,9 +94,13 @@ namespace AdeebTask.Controllers
             _stateMachine.TransitionTo(new States.MainMenuState()).Forget();
         }
 
-        private void OnNavigateToEditor(NavigateToEditorEvent evt)
+        private async void OnNavigateToEditor(NavigateToEditorEvent evt)
         {
             var editorScreen = _uiManager.Show<EditorScreen>();
+
+            // Overlay the InitScreen manually using EventBus so it isn't hidden by UIManager
+            _eventBus.Publish(new GlobalLoadingEvent(true, 0.9f, "Loading Workspace..."));
+
             if (editorScreen != null)
             {
                 editorScreen.InitializeToolbox();
@@ -114,6 +118,10 @@ namespace AdeebTask.Controllers
                     _eventBus.Publish(new EditorModeChangedEvent(!_isNewProject));
                 }
             }
+
+            // Give Addressables 1 second to fetch assets and apply to the canvas before dropping the curtain
+            await UniTask.Delay(1000);
+            _eventBus.Publish(new GlobalLoadingEvent(false));
         }
 
         private void HandleEditorQuitRequested(EditorQuitRequestedEvent evt)

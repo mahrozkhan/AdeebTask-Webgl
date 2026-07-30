@@ -201,30 +201,41 @@ namespace AdeebTask.UI.Screens
 
         private void HandlePageLoaded(PageLoadedEvent evt)
         {
-            // First apply solid color if present
-            if (!string.IsNullOrEmpty(evt.PageData.backgroundColorHex))
+            bool hasBgImage = !string.IsNullOrEmpty(evt.PageData.backgroundKey);
+
+            if (!hasBgImage)
             {
-                if (Enum.TryParse<CanvasColorType>(evt.PageData.backgroundColorHex, out var parsedType))
+                // Apply solid color and clear sprite if no image is present
+                if (!string.IsNullOrEmpty(evt.PageData.backgroundColorHex))
                 {
-                    if (_canvasBackground != null)
+                    if (Enum.TryParse<CanvasColorType>(evt.PageData.backgroundColorHex, out var parsedType))
                     {
-                        _canvasBackground.color = parsedType.ToColor();
-                        _canvasBackground.sprite = null;
+                        if (_canvasBackground != null)
+                        {
+                            _canvasBackground.color = parsedType.ToColor();
+                            _canvasBackground.sprite = null;
+                        }
+                    }
+                    else if (ColorUtility.TryParseHtmlString(evt.PageData.backgroundColorHex, out var parsedColor))
+                    {
+                        if (_canvasBackground != null)
+                        {
+                            _canvasBackground.color = parsedColor;
+                            _canvasBackground.sprite = null;
+                        }
                     }
                 }
-                else if (ColorUtility.TryParseHtmlString(evt.PageData.backgroundColorHex, out var parsedColor))
+                
+                // Safely release the old background if we are dropping to a solid color
+                if (_currentBgHandle != null && _assetService != null)
                 {
-                    if (_canvasBackground != null)
-                    {
-                        _canvasBackground.color = parsedColor;
-                        _canvasBackground.sprite = null;
-                    }
+                    _assetService.Release(_currentBgHandle.Key);
+                    _currentBgHandle = null;
                 }
             }
-
-            // Then override with image if present
-            if (!string.IsNullOrEmpty(evt.PageData.backgroundKey))
+            else
             {
+                // We have a background image, let LoadBackgroundAsync swap seamlessly
                 LoadBackgroundAsync(evt.PageData.backgroundKey).Forget();
             }
         }
@@ -232,18 +243,22 @@ namespace AdeebTask.UI.Screens
         private async UniTaskVoid LoadBackgroundAsync(string key)
         {
             if (string.IsNullOrEmpty(key) || _canvasBackground == null || _assetService == null) return;
+            if (_currentBgHandle != null && _currentBgHandle.Key == key) return;
 
-            if (_currentBgHandle != null)
-            {
-                _assetService.Release(_currentBgHandle.Key);
-                _currentBgHandle = null;
-            }
-
-            _currentBgHandle = await _assetService.AcquireAsync<Sprite>(key);
-            if (_currentBgHandle != null && _currentBgHandle.Asset != null)
+            var newHandle = await _assetService.AcquireAsync<Sprite>(key);
+            
+            if (newHandle != null && newHandle.Asset != null)
             {
                 _canvasBackground.color = Color.white; // Reset tint
-                _canvasBackground.sprite = _currentBgHandle.Asset;
+                _canvasBackground.sprite = newHandle.Asset;
+
+                // Safely release the old handle AFTER the swap is complete
+                if (_currentBgHandle != null)
+                {
+                    _assetService.Release(_currentBgHandle.Key);
+                }
+                
+                _currentBgHandle = newHandle;
             }
         }
 

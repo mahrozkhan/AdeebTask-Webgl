@@ -63,6 +63,9 @@ namespace AdeebTask.Controllers
                 }
             }
 
+            // SHOW LOADING SCREEN WHILE SAVING TO FIREBASE
+            if (_eventBus != null) _eventBus.Publish(new GlobalLoadingEvent(true, 0.5f, "Saving Project..."));
+
             // 2. Update version and timestamp
             projectData.version++;
             projectData.lastModifiedUtc = DateTimeOffset.UtcNow.ToUnixTimeSeconds();

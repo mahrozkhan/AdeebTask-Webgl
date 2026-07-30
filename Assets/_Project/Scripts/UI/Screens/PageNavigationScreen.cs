@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using AdeebTask.Core;
 using AdeebTask.Core.Events;
 
 namespace AdeebTask.UI.Screens
@@ -17,7 +18,7 @@ namespace AdeebTask.UI.Screens
 
         private void Awake()
         {
-            _eventBus = AdeebTask.Core.ServiceLocator.Get<IEventBus>();
+            _eventBus = ServiceLocator.Get<IEventBus>();
             _eventBus.Subscribe<PageNavigationStateChangedEvent>(HandleStateChanged);
             _eventBus.Subscribe<EditorModeChangedEvent>(HandleModeChanged);
         }

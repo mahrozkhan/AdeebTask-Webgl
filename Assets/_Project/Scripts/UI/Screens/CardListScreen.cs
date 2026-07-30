@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using AdeebTask.Models;
 using UnityEngine;
 using UnityEngine.UI;
+using AdeebTask.Core;
+using AdeebTask.Core.Events;
 
 namespace AdeebTask.UI.Screens
 {
     public class CardListScreen : AppScreen
     {
-        private AdeebTask.Core.Events.IEventBus _eventBus;
+        private IEventBus _eventBus;
 
         [SerializeField] private Button _createNewButton;
         [SerializeField] private Transform _cardsContainer;
@@ -18,7 +20,7 @@ namespace AdeebTask.UI.Screens
 
         private void Awake()
         {
-            _eventBus = AdeebTask.Core.ServiceLocator.Get<AdeebTask.Core.Events.IEventBus>();
+            _eventBus = ServiceLocator.Get<IEventBus>();
             if (_createNewButton != null)
             {
                 _createNewButton.onClick.AddListener(OnCreateButtonClicked);
@@ -80,12 +82,12 @@ namespace AdeebTask.UI.Screens
 
         private void OnCreateButtonClicked()
         {
-            _eventBus.Publish(new AdeebTask.Core.Events.CreateNewProjectRequestedEvent());
+            _eventBus.Publish(new CreateNewProjectRequestedEvent());
         }
 
         private void OnProjectCardClicked(string projectId)
         {
-            _eventBus.Publish(new AdeebTask.Core.Events.OpenProjectRequestedEvent(projectId));
+            _eventBus.Publish(new OpenProjectRequestedEvent(projectId));
         }
     }
 }
