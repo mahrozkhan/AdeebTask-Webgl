@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Category_Sports
+  m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
+  m_GroupName: Category_Sports
+  m_GUID: f0ce09177935429458194e127ebfb84c
+  m_SerializeEntries:
+  - m_GUID: 18b8643c2b11bc54ba68e88a643741ba
+    m_Address: Sports_Badminton
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3232711d583b28d4d87ded5af3955fcd
+    m_Address: Sports_PingPong
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4f562eb4db58a4240a6882c257ea8791
+    m_Address: Sports_Scooter
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 700e5bec7087cb749887c05ef24df5b3
+    m_Address: Sports_Tennis
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 735f6a6826b79e349ba85161749c34b8
+    m_Address: Sports_Bicycle
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b6838766a43b10a44a5a2aa6ba1ede47
+    m_Address: Sports_Net
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d5fbcc9eb98602d41a1bf51a05392ad4
+    m_Address: Sports_Goggles
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d79d793c97a40af45992860d5db9245e
+    m_Address: Sports_Boxing
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 03cb577e709d48b459f63b5d65112b9b, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 49d8f2e7a0508a946893d0f404a16ff7, type: 2}
+    - {fileID: 11400000, guid: 3324ed142b1619148b0a4733512ec248, type: 2}

@@ -1,0 +1,73 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Category_Icons
+  m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
+  m_GroupName: Category_Icons
+  m_GUID: 8585abb6f4efb4043b68ecbb00345b4d
+  m_SerializeEntries:
+  - m_GUID: 1f0071b4a2ecbe94a89f250da65b3bd9
+    m_Address: Icon_Transportation
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5d605de6c701a3140b784f55df7e15b5
+    m_Address: Icon_Backgrounds
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 814f2f99615c46245810bef03a0a1022
+    m_Address: Icon_Science
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8ac03178d42e2084d83de5df8bdd0524
+    m_Address: Icon_Furniture
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 97aa554913e2ad643bd0d21404e4a880
+    m_Address: Icon_Plants
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a52389b35cfbd8d4db9985dd329fb7da
+    m_Address: Icon_Sea
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a6341c2e76ae1ac4f9f35f64776835a7
+    m_Address: Icon_Weather
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c7d2943dbbfbeb043964b9d7f4cfeb98
+    m_Address: Icon_Space
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e88950a299f8f4f43b6515213527a99d
+    m_Address: Icon_Tools
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ebdcd6e1633174844a30035b3380c2f3
+    m_Address: Icon_Sports
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 03cb577e709d48b459f63b5d65112b9b, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 5bc38923ff7031c40b50e9da8e022898, type: 2}
+    - {fileID: 11400000, guid: 085b9b5fced600343aadfc1f3ab04f65, type: 2}
