@@ -2,6 +2,8 @@ using Cysharp.Threading.Tasks;
 using AdeebTask.Core.Events;
 using AdeebTask.Core;
 using AdeebTask.Services.Persistence;
+using AdeebTask.UI;
+using AdeebTask.UI.Screens;
 
 namespace AdeebTask.States
 {
@@ -22,7 +24,11 @@ namespace AdeebTask.States
             cache.CacheAllProjects(projects);
 
             // 3. Navigate UI
-            eventBus.Publish(new NavigateToMenuEvent());
+            var uiManager = ServiceLocator.Get<UIManager>();
+            uiManager.Show<CardListScreen>();
+            
+            var projectCards = cache.GetCachedProjectCards();
+            eventBus.Publish(new ProjectListUpdatedEvent(projectCards));
             
             // 4. Hide Loader
             eventBus.Publish(new GlobalLoadingEvent(false));

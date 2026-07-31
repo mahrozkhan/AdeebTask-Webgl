@@ -21,8 +21,8 @@ namespace AdeebTask.UI
                 if (screen != null)
                 {
                     _screens[screen.GetType()] = screen;
-                    screen.Initialize(); // Initialize event bindings before hiding
-                    screen.Hide(); // Ensure all are hidden initially
+                    screen.Initialize(); 
+                    screen.Hide(); 
                 }
             }
 

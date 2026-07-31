@@ -1,6 +1,8 @@
 using UnityEngine;
 using Cysharp.Threading.Tasks;
 using AdeebTask.Core;
+using AdeebTask.UI;
+using AdeebTask.UI.Screens;
 
 namespace AdeebTask.States
 {
@@ -8,7 +10,8 @@ namespace AdeebTask.States
     {
         public async UniTask EnterAsync()
         {
-            ServiceLocator.Get<Core.Events.IEventBus>().Publish(new Core.Events.NavigateToProjectSetupEvent());
+            var uiManager = ServiceLocator.Get<UIManager>();
+            uiManager.Show<ProjectSetupScreen>();
             await UniTask.CompletedTask;
         }
 

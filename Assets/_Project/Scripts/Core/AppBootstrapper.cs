@@ -6,6 +6,7 @@ using AdeebTask.Services.Persistence;
 using AdeebTask.Services.Assets;
 using AdeebTask.UI;
 using Cysharp.Threading.Tasks;
+using ContentDiscovery.Services;
 
 namespace AdeebTask.Core
 {
@@ -24,15 +25,6 @@ namespace AdeebTask.Core
             _stateMachine = new AppStateMachine();
             ServiceLocator.Register<AppStateMachine>(_stateMachine);
 
-            if (_uiManager != null)
-            {
-                _uiManager.Initialize();
-                ServiceLocator.Register<UIManager>(_uiManager);
-            }
-            else
-            {
-                Debug.LogError("[AppBootstrapper] UIManager is not assigned in the inspector!");
-            }
 
             // Setup Persistence
             ServiceLocator.Register<ILocalCacheService>(new LocalCacheService());
@@ -45,8 +37,23 @@ namespace AdeebTask.Core
             var thumbnailService = gameObject.AddComponent<ThumbnailService>();
             ServiceLocator.Register<ThumbnailService>(thumbnailService);
             
+            // Task 2: Content Discovery Services
+            var firebaseContentService = gameObject.AddComponent<FirebaseContentService>();
+            ServiceLocator.Register<IDataContentService>(firebaseContentService);
+            ServiceLocator.Register<ContentSearchService>(new ContentSearchService());
+
             // Setup Assets
             ServiceLocator.Register<IAssetService>(new AssetService());
+
+            if (_uiManager != null)
+            {
+                _uiManager.Initialize();
+                ServiceLocator.Register<UIManager>(_uiManager);
+            }
+            else
+            {
+                Debug.LogError("[AppBootstrapper] UIManager is not assigned in the inspector!");
+            }
         }
 
         private void Start()

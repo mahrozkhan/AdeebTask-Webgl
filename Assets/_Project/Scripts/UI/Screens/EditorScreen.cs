@@ -42,8 +42,9 @@ namespace AdeebTask.UI.Screens
         private IAssetService _assetService;
         private AssetHandle<Sprite> _currentBgHandle;
 
-        private void Start()
+        public override void Initialize()
         {
+            base.Initialize();
             LoadServices();
             if (_backButton != null) _backButton.onClick.AddListener(() => _eventBus.Publish(new EditorQuitRequestedEvent()));
             if (_saveButton != null) _saveButton.onClick.AddListener(() => _eventBus.Publish(new SaveProjectRequestedEvent(true)));
@@ -63,6 +64,7 @@ namespace AdeebTask.UI.Screens
                 _eventBus.Subscribe<EditorModeChangedEvent>(HandleModeChanged);
                 _eventBus.Subscribe<BackgroundUpdatedEvent>(HandleBackgroundUpdated);
                 _eventBus.Subscribe<PageLoadedEvent>(HandlePageLoaded);
+                _eventBus.Subscribe<EditorProjectLoadedEvent>(HandleProjectLoaded);
             }
         }
         private void OnDisable()
@@ -96,6 +98,7 @@ namespace AdeebTask.UI.Screens
                 _eventBus.Unsubscribe<EditorModeChangedEvent>(HandleModeChanged);
                 _eventBus.Unsubscribe<BackgroundUpdatedEvent>(HandleBackgroundUpdated);
                 _eventBus.Unsubscribe<PageLoadedEvent>(HandlePageLoaded);
+                _eventBus.Unsubscribe<EditorProjectLoadedEvent>(HandleProjectLoaded);
             }
             OnDisable(); // Failsafe
         }
@@ -105,6 +108,11 @@ namespace AdeebTask.UI.Screens
             if (_placeItemButton != null) _placeItemButton.gameObject.SetActive(!evt.IsViewOnly);
             if (_saveButton != null) _saveButton.gameObject.SetActive(!evt.IsViewOnly);
             if (evt.IsViewOnly) HideAllPanels();
+        }
+
+        private void HandleProjectLoaded(EditorProjectLoadedEvent evt)
+        {
+            InitializeToolbox();
         }
 
         public void InitializeToolbox()

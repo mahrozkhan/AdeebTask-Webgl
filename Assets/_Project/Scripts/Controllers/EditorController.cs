@@ -15,7 +15,6 @@ namespace AdeebTask.Controllers
     public class EditorController : MonoBehaviour
     {
         private IEventBus _eventBus;
-        private UIManager _uiManager;
         private ILocalCacheService _localCache;
         private AppStateMachine _stateMachine;
         private bool _isNewProject = false;
@@ -24,12 +23,10 @@ namespace AdeebTask.Controllers
         private void Start()
         {
             _eventBus = ServiceLocator.Get<IEventBus>();
-            _uiManager = ServiceLocator.Get<UIManager>();
             _localCache = ServiceLocator.Get<ILocalCacheService>();
             _stateMachine = ServiceLocator.Get<AppStateMachine>();
 
             _eventBus.Subscribe<NavigateToEditorEvent>(OnNavigateToEditor);
-            _eventBus.Subscribe<NavigateToProjectSetupEvent>(OnNavigateToProjectSetup);
             _eventBus.Subscribe<ProjectSetupConfirmedEvent>(HandleSetupConfirmed);
             _eventBus.Subscribe<ProjectSetupCancelledEvent>(HandleSetupCancel);
             _eventBus.Subscribe<EditorQuitRequestedEvent>(HandleEditorQuitRequested);
@@ -41,17 +38,11 @@ namespace AdeebTask.Controllers
             if (_eventBus != null)
             {
                 _eventBus.Unsubscribe<NavigateToEditorEvent>(OnNavigateToEditor);
-                _eventBus.Unsubscribe<NavigateToProjectSetupEvent>(OnNavigateToProjectSetup);
                 _eventBus.Unsubscribe<ProjectSetupConfirmedEvent>(HandleSetupConfirmed);
                 _eventBus.Unsubscribe<ProjectSetupCancelledEvent>(HandleSetupCancel);
                 _eventBus.Unsubscribe<EditorQuitRequestedEvent>(HandleEditorQuitRequested);
                 _eventBus.Unsubscribe<ConfirmationPopupResponseEvent>(HandlePopupResponse);
             }
-        }
-
-        private void OnNavigateToProjectSetup(NavigateToProjectSetupEvent evt)
-        {
-            _uiManager.Show<ProjectSetupScreen>();
         }
 
         private void HandleSetupConfirmed(ProjectSetupConfirmedEvent evt)
@@ -91,20 +82,15 @@ namespace AdeebTask.Controllers
 
         private void HandleSetupCancel(ProjectSetupCancelledEvent evt)
         {
-            _stateMachine.TransitionTo(new States.MainMenuState()).Forget();
+            _stateMachine.TransitionTo(new MainMenuState()).Forget();
         }
 
         private async void OnNavigateToEditor(NavigateToEditorEvent evt)
         {
-            var editorScreen = _uiManager.Show<EditorScreen>();
-
             // Overlay the InitScreen manually using EventBus so it isn't hidden by UIManager
             _eventBus.Publish(new GlobalLoadingEvent(true, 0.9f, "Loading Workspace..."));
-
-            if (editorScreen != null)
-            {
-                editorScreen.InitializeToolbox();
-            }
+            
+            _eventBus.Publish(new EditorProjectLoadedEvent());
 
             if (!string.IsNullOrEmpty(evt.ProjectId))
             {
@@ -128,7 +114,7 @@ namespace AdeebTask.Controllers
         {
             if (_isNewProject)
             {
-                _eventBus.Publish(new ShowConfirmationPopupEvent("EditorQuit", "Quit Editor", "Do you want to save your new project?"));
+                _eventBus.Publish(new ShowConfirmationPopupEvent("EditorQuit", PopupType.StandardConfirm, "Quit Editor", "Do you want to save your new project?"));
             }
             else
             {

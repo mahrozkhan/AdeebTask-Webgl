@@ -13,31 +13,53 @@ namespace AdeebTask.UI.Screens
         private IEventBus _eventBus;
 
         [SerializeField] private Button _createNewButton;
+        [SerializeField] private Button _task2Button;
         [SerializeField] private Transform _cardsContainer;
         [SerializeField] private ProjectCardView _cardPrefab;
 
         private List<ProjectCardView> _cardPool = new List<ProjectCardView>();
 
-        private void Awake()
+        public override void Initialize()
         {
+            base.Initialize();
             _eventBus = ServiceLocator.Get<IEventBus>();
+            _eventBus.Subscribe<ProjectListUpdatedEvent>(OnProjectListUpdated);
+
             if (_createNewButton != null)
             {
                 _createNewButton.onClick.AddListener(OnCreateButtonClicked);
+            }
+            if (_task2Button != null)
+            {
+                _task2Button.onClick.AddListener(OnTask2ButtonClicked);
             }
         }
 
         private void OnDestroy()
         {
+            if (_eventBus != null)
+            {
+                _eventBus.Unsubscribe<ProjectListUpdatedEvent>(OnProjectListUpdated);
+            }
+
             if (_createNewButton != null)
             {
                 _createNewButton.onClick.RemoveListener(OnCreateButtonClicked);
+            }
+            if (_task2Button != null)
+            {
+                _task2Button.onClick.RemoveListener(OnTask2ButtonClicked);
             }
             
             foreach (var card in _cardPool)
             {
                 if (card != null) card.OnCardClicked -= OnProjectCardClicked;
             }
+        }
+
+        private void OnProjectListUpdated(ProjectListUpdatedEvent evt)
+        {
+            DisplayProjects(evt.Projects);
         }
 
         public void DisplayProjects(List<ProjectCardData> projects)
@@ -83,6 +105,11 @@ namespace AdeebTask.UI.Screens
         private void OnCreateButtonClicked()
         {
             _eventBus.Publish(new CreateNewProjectRequestedEvent());
+        }
+
+        private void OnTask2ButtonClicked()
+        {
+            _eventBus.Publish(new LaunchTask2RequestedEvent());
         }
 
         private void OnProjectCardClicked(string projectId)

@@ -1,6 +1,8 @@
 using Cysharp.Threading.Tasks;
 using AdeebTask.Core.Events;
 using AdeebTask.Core;
+using AdeebTask.UI;
+using AdeebTask.UI.Screens;
 
 namespace AdeebTask.States
 {
@@ -17,6 +19,9 @@ namespace AdeebTask.States
 
         public async UniTask EnterAsync()
         {
+            var uiManager = ServiceLocator.Get<UIManager>();
+            uiManager.Show<EditorScreen>();
+
             var eventBus = ServiceLocator.Get<IEventBus>();
             eventBus.Publish(new NavigateToEditorEvent(ProjectId, IsNewProject));
             
@@ -29,6 +34,9 @@ namespace AdeebTask.States
             // This is the absolute failsafe for WebGL memory management.
             var assetService = ServiceLocator.Get<Services.Assets.IAssetService>();
             assetService.ReleaseAll(); 
+            
+            var eventBus = ServiceLocator.Get<IEventBus>();
+            eventBus.Publish(new NavigateToMenuEvent());
             
             await UniTask.CompletedTask;
         }

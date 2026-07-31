@@ -1,11 +1,9 @@
 using System.Linq;
 using UnityEngine;
 using AdeebTask.Models;
-using AdeebTask.UI.Screens;
 using AdeebTask.Core;
 using AdeebTask.Core.Events;
 using Cysharp.Threading.Tasks;
-using AdeebTask.UI;
 using AdeebTask.Services.Persistence;
 
 namespace AdeebTask.Controllers
@@ -16,13 +14,11 @@ namespace AdeebTask.Controllers
         private int _currentPageIndex = 0;
         
         private IEventBus _eventBus;
-        private UIManager _uiManager;
         private ILocalCacheService _localCache;
 
         private void Start()
         {
             _eventBus = ServiceLocator.Get<IEventBus>();
-            _uiManager = ServiceLocator.Get<UIManager>();
             _localCache = ServiceLocator.Get<ILocalCacheService>();
 
             _eventBus.Subscribe<NavigateToEditorEvent>(HandleNavigateToEditor);

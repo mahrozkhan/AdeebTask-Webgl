@@ -1,3 +1,6 @@
+using AdeebTask.UI.Screens;
+using AdeebTask.Services.Assets;
+using System.Collections.Generic;
 using AdeebTask.Models;
 
 namespace AdeebTask.Core.Events
@@ -57,6 +60,15 @@ namespace AdeebTask.Core.Events
     public readonly struct ProjectSetupCancelledEvent { }
 
     public readonly struct CreateNewProjectRequestedEvent { }
+    public readonly struct LaunchTask2RequestedEvent { }
+
+    public readonly struct ProjectListUpdatedEvent
+    {
+        public readonly List<ProjectCardData> Projects;
+        public ProjectListUpdatedEvent(List<ProjectCardData> projects) => Projects = projects;
+    }
+
+    public readonly struct EditorProjectLoadedEvent { }
 
     public readonly struct OpenProjectRequestedEvent
     {
@@ -70,15 +82,24 @@ namespace AdeebTask.Core.Events
     public readonly struct DeletePageRequestedEvent { }
     public readonly struct EditorQuitRequestedEvent { }
 
+    public enum PopupType
+    {
+        StandardConfirm, // Shows 2 buttons
+        Error,           // Shows 1 OK button
+        ConnectionError  // Shows 0 buttons, auto-closes
+    }
+
     public readonly struct ShowConfirmationPopupEvent
     {
         public readonly string PopupId;
+        public readonly PopupType Type;
         public readonly string Title;
         public readonly string Message;
 
-        public ShowConfirmationPopupEvent(string popupId, string title, string message)
+        public ShowConfirmationPopupEvent(string popupId, PopupType type, string title = "", string message = "")
         {
             PopupId = popupId;
+            Type = type;
             Title = title;
             Message = message;
         }
@@ -108,8 +129,8 @@ namespace AdeebTask.Core.Events
 
     public readonly struct PageLoadedEvent 
     {
-        public readonly AdeebTask.Models.PageData PageData;
-        public PageLoadedEvent(AdeebTask.Models.PageData pageData) => PageData = pageData;
+        public readonly PageData PageData;
+        public PageLoadedEvent(PageData pageData) => PageData = pageData;
     }
 
     public readonly struct PageNavigationStateChangedEvent
